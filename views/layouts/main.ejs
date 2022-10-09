@@ -21,8 +21,15 @@
     <link href="./css/styles.css" rel="stylesheet" />
   </head>
   <body>
-    <form>
+<%
+    if (users.length > 0 && users !== undefined) {
+%>
+      <span>No. of records: <%= users.length %></span>
+<%
+    }
+%>
       <div class="App">
+        
       <table>
         <thead>
           <tr>
@@ -41,7 +48,6 @@
         </thead>
         <%- body -%>
       </table>
-    </form>
   </div>
     <script src="./js/script.js"></script>
   </body>

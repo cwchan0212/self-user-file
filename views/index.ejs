@@ -1,5 +1,5 @@
 <%  
-    const titleList = ["Mr", "Ms" , "Mrs" , "Miss" ]; 
+    const titleList = ["Mr", "Ms" , "Mrs" , "Miss", "Monsieur", "Mademoiselle", "Madame"]; 
     const genderList = ["male", "female" ]; 
     const countryList = ["Australia", "Brazil" , "Canada" , "Denmark" , "Finland" , "France" , "Germany" , 
                           "India" , "Iran" , "Ireland" , "Mexico" , "Netherlands" , "New Zealand" , "Norway" , 
@@ -9,14 +9,14 @@
 
   <tbody>
 <!-- New User Data Start -->
-    <form name="new-user" method="post" action="/">
+    <form name="new-user" method="post" action="/created">
       <tr>
         <td><i class="fa-solid fa-plus"></i></td>
         <td>
           <select class="form-select form-select-sm" name="title" required>
             <option></option>
 <%  titleList.forEach(function(title, index) { %>
-              <option value="<%= title%> >">
+              <option value="<%= title%>">
                 <%= title %>
               </option>
 <%  })  %>
@@ -67,18 +67,18 @@
           <i class="fa-solid fa-user"></i>
         </td>
         <td>
-          <button type="submit" class="btn btn-outline-secondary" name="submit-new" value="new"><i
+          <button type="submit" class="btn btn-outline-secondary" name="submit" value="new"><i
               class="fa-solid fa-pen-to-square"></i>
           </button>
         </td>
       </tr>
-
+    </form>
 <!-- New User Data End -->
 
-    </form>
+
 <!-- Old User Data start -->
 <% 
-    if (users.length) { 
+    if (users.length > 0 && users !== undefined) { 
         let count = 1; 
         users.forEach(function(user, index) { 
 %>
@@ -88,8 +88,7 @@
           <span class="count"><%= count %></span>
         </td>
         <td>
-          <input name="title-<%= user._id %>" value="<%= user.name.title%>" type="hidden" />
-          <select id="title-<%= user._id %>-<%= user.name.title %>" class="form-select form-select-sm">
+          <select name="title-<%= user._id %>" id="title-<%= user._id %>-<%= user.name.title %>" class="form-select form-select-sm">
             <option></option>
 <%          titleList.forEach(function(title, index) {  %>
               <option value="<%= title%>">
@@ -108,8 +107,7 @@
             value="<%= user.name.last %>" />
         </td>
         <td>
-          <input name="gender-<%= user._id %>" value="<%= user.gender%>" type="hidden" />
-          <select class="form-select form-select-sm" id="gender-<%= user._id %>-<%= user.gender %>">
+          <select name="gender-<%= user._id %>" class="form-select form-select-sm" id="gender-<%= user._id %>-<%= user.gender %>">
             <option></option>
 <%          genderList.forEach(function(gender, index) { %>
               <option value="<%=gender%>" <%= user.gender === gender ? "selected" : "" %>> <%= gender %>
@@ -122,8 +120,7 @@
             value="<%= new Date(user.dob.date).toISOString().substring(0,10) %>" />
         </td>
         <td>
-          <input name="country-<%= user._id %>" value="<%= user.location.country%>" type="hidden" />
-          <select id="country-<%= user._id %>-<%= user.location.country %>" class="form-select form-select-sm" >
+          <select name="country-<%= user._id %>" id="country-<%= user._id %>-<%= user.location.country %>" class="form-select form-select-sm" >
             <option></option>
 <%          countryList.forEach(function(country, index) { %>
               <option value="<%= country%>">
