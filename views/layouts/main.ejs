@@ -11,10 +11,18 @@
       integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link href="./css/styles.css" rel="stylesheet" />
   </head>
   <body>
     <form>
+      <div class="App">
       <table>
         <thead>
           <tr>
@@ -27,12 +35,14 @@
             <td>Country</td>
             <td>Phone</td>
             <td>Email</td>
+            <td colspan="2">Picture</td>
             <td>Action</td>
           </tr>
         </thead>
         <%- body -%>
       </table>
     </form>
+  </div>
     <script src="./js/script.js"></script>
   </body>
 </html>
