@@ -5,7 +5,7 @@ const User = require("../models/User");
 exports.homepage = async (req, res) => {
     const info = req.flash("info");
     try {
-        const users = await User.find({}).sort({ _id: -1 }).limit(100);
+        const users = await User.find({}).sort({ _id: -1 });
         res.render("index", { title: "User Profile Management", users, info });
     } catch (error) {
         res.status(500).send({ message: error.message || "Error Occurred" });
