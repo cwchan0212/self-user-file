@@ -3,9 +3,10 @@ const { remove } = require("../models/User");
 const User = require("../models/User");
 
 exports.homepage = async (req, res) => {
+    const info = req.flash("info");
     try {
-        const users = await User.find({}).sort({ _id: -1 });
-        res.render("index", { title: "User Profile Management - CRUD", users });
+        const users = await User.find({}).sort({ _id: -1 }).limit(100);
+        res.render("index", { title: "User Profile Management", users, info });
     } catch (error) {
         res.status(500).send({ message: error.message || "Error Occurred" });
     }
@@ -14,8 +15,8 @@ exports.homepage = async (req, res) => {
 exports.modified = async (req, res) => {
     try {
         let id = req.params.id;
-        let action = req.body.save ? "update" : "remove";
-        console.log(req.body);
+        let action = req.body.save ? "update" : "delete";
+        // console.log(req.body);
 
         if (id) {
             const userData = {
@@ -49,14 +50,16 @@ exports.modified = async (req, res) => {
                     if (err) {
                         console.log(err);
                     } else {
+                        req.flash("info", [action, id]);
                         res.redirect("/");
                     }
                 });
-            } else if (action == "remove") {
+            } else if (action == "delete") {
                 User.findByIdAndDelete(id, function (err, doc) {
                     if (err) {
                         console.log(err);
                     } else {
+                        req.flash("info", [action, id]);
                         res.redirect("/");
                     }
                 });
@@ -97,7 +100,8 @@ exports.created = async (req, res) => {
 
         const newUser = User(userData);
         newUser.save();
-        req.flash("message", "add");
+
+        req.flash("info", ["add", newUser._id]);
         res.redirect("/");
     } catch (error) {
         res.status(500).send({ message: error.message || "Error Occurred" });

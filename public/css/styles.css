@@ -1,34 +1,78 @@
+.banner {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
 thead {
-    text-align: center ;
+    text-align: center;
     font-size: 12px;
     font-weight: bold;
 }
+
 .App {
     display: flex;
     margin: auto;
-    justify-content: center;    
+    justify-content: center;
+}
+
+.tableFixHead {
+    overflow-y: auto;
+    height: 550px;
+    width: 100%;
+}
+
+.tableFixHead thead th {
+    position: sticky;
+    top: 0;
 }
 
 table {
     width: 100%;
+    /* border-collapse: collapse; */
 }
 
+tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.newly {
+    background-color: dodgerblue;
+    animation: fadeout 5s forwards;
+}
+
+@keyframes fadeout {
+    to {
+        background-color: #ffffff;
+    }
+}
+
+th,
 td {
-    justify-content: center;
     text-align: center;
+    justify-content: center;
+    /* padding: 0px; */
 }
 
-.form-control, .form-select, .count {
+th {
+    background: #eee;
+}
+
+.form-control,
+.form-select,
+.count {
     font-size: 12px;
 }
 
 .btn {
     display: table-column;
     justify-content: space-evenly;
-    /* margin-left: 10px;
-    margin-right: 10px; */
     width: 45px;
-    /* height: 35px; */
     border: none; /* Remove borders */
     cursor: pointer; /* Mouse pointer on hover */
     padding: 0px;
@@ -41,13 +85,41 @@ i {
     justify-content: center; */
 }
 
-img {
+.logo {
+    height: 30px;
+    margin: auto;
+}
+
+.thumbnail {
     width: 30px;
     border-radius: 15px;
     cursor: pointer;
 }
 
-img:hover {
-    transform:scale(2,2);
+.thumbnail:hover {
+    transform: scale(2, 2);
     /* transition: all 1s ease-out; */
+}
+
+.message {
+    display: flex;
+    justify-content: left;
+}
+.alert {
+    margin-bottom: 1px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0px 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.alert-light {
+    width: 10%;
+}
+
+.alert-primary,
+.alert-success,
+.alert-danger {
+    width: 90%;
 }

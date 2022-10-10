@@ -9,7 +9,7 @@
 
   <tbody>
 <!-- New User Data Start -->
-    <form name="new-user" method="post" action="/created">
+    <form name="new-user" method="post" action="/new">
       <tr>
         <td><i class="fa-solid fa-plus"></i></td>
         <td>
@@ -67,7 +67,7 @@
           <i class="fa-solid fa-user"></i>
         </td>
         <td>
-          <button type="submit" class="btn btn-outline-secondary" name="submit" value="new"><i
+          <button type="submit" class="btn btn-outline-secondary" name="submit" value="add"><i
               class="fa-solid fa-pen-to-square"></i>
           </button>
         </td>
@@ -78,13 +78,21 @@
 
 <!-- Old User Data start -->
 <% 
-    if (users.length > 0 && users !== undefined) { 
+    if (typeof users !== "undefined" && users.length > 0) { 
         let count = 1; 
         users.forEach(function(user, index) { 
+          let newly = "";
+          if (info.length !== 0 && info[0] !== "") {              
+              if (user.id === info[1]) {
+                newly = " class=newly";
+              } else {
+                newly = "";
+              }
+          }          
 %>
       <form name="old-users" method="post" action="/user/<%= user._id %>">
-      <tr>
-        <td>
+      <tr <%= newly %>>
+        <td> 
           <span class="count"><%= count %></span>
         </td>
         <td>
@@ -143,7 +151,7 @@
 
         </td>
         <td>
-          <img src="<%= user.picture.large %>" border="0" />
+          <img class="thumbnail" src="<%= user.picture.large %>" border="0" />
         </td>
         <td>
           <button type="submit" class="btn btn-outline-secondary" name="save" value="<%= user._id %>"><i
@@ -160,8 +168,8 @@
 
 <%
     } 
-%>
-    
+%>    
         <!-- User Data End -->
 
   </tbody>
+
