@@ -1,11 +1,11 @@
 # Implementation of the use of express + ejs + MongoDB to User Profile Management (CRUD operations)
 
-Express is a minimal and flexible Node.js web application framework that provides robust features for web and mobile applications, EJS is a simple templating language that lets you generate HTML markup with plain JavaScript. No religiousness about how to organize things. MongoDB is a source-available cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas.
+Express is a minimal and flexible Node.js web application framework that provides robust features for web and mobile applications, EJS is a simple templating language that lets us generate HTML markup with plain JavaScript. No religiousness about how to organize things. MongoDB is a source-available cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas.
 
 CRUD operations in the MongoDB with the following steps.
---
 
-File Structure
+
+Folder Structure
 
 ```
 public/
@@ -32,7 +32,9 @@ README.md
 server.js
 ```
 
-Open VSCode, type npm init -y to create package.json. 
+### Steps to complete this project
+
+1. Open VSCode, type npm init -y in the Terminal to create package.json. 
 
 ```
 npm init -y
@@ -55,14 +57,15 @@ package.json
 }
 ```
 
-Install the required packages
+2. Install the required packages
 ```
-npm i express ejs express-ejs-layouts express-session mongodb mongoose dotenv connect-flash cookie-parser nodemon
+npm i express ejs express-ejs-layouts express-session mongodb mongoose dotenv  connect-flash cookie-parser nodemon
 ```
 
-Create the file server.js at the root level, include the packges and set up web service at the port 3000
+3. Create the file **server.js** at the root level, include the packges and set up web service at the port 3000
 
 server.js
+
 ```
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
@@ -105,7 +108,7 @@ app.listen(port, () => console.log(`Listening to port ${port}...`));
 
 ```
 
-Add "start:": nodemon sever.js in the "script" of package.json. nodemon is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
+4. Add "start": "nodemon server.js" in the "scripts" of package.json. **nodemon** is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
 
 ```
   "scripts": {
@@ -114,11 +117,11 @@ Add "start:": nodemon sever.js in the "script" of package.json. nodemon is a too
   },
 ```
 
-Under the **views** folder, **index.ejs** seperate two parts: 
-1) New User Data (to add new user)
-2) Old User Data (to list/update/delete user)
+5. Under the **views** folder, **index.ejs** separate two parts: 
+- New User Data - add new user
+- Old User Data - list/update/delete user
 
-Here is the new user data.
+**New** user data
 
 ```
 <%  
@@ -147,11 +150,13 @@ Here is the new user data.
         </td>
 
         <td>
-          <input class="form-control form-control-sm" name="first" text="" placeholder="First Name..." required />
+          <input class="form-control form-control-sm" name="first" text="" placeholder="First Name..." 
+required />
         </td>
 
         <td>
-          <input class="form-control form-control-sm" name="last" text="" placeholder="Last Name..." required />
+          <input class="form-control form-control-sm" name="last" text="" placeholder="Last Name..." 
+required />
         </td>
 
         <td>
@@ -178,10 +183,12 @@ Here is the new user data.
           </select>
         </td>
         <td>
-          <input class="form-control form-control-sm" name="phone" type="text" placeholder="Phone..." required />
+          <input class="form-control form-control-sm" name="phone" type="text" placeholder="Phone..." 
+required />
         </td>
         <td>
-          <input class="form-control form-control-sm" name="email" type="email" placeholder="Email..." required />
+          <input class="form-control form-control-sm" name="email" type="email" placeholder="Email..." 
+required />
         </td>
         <td>
           <input class="form-control form-control-sm" name="picture" type="text" placeholder="Picture..." />
@@ -190,8 +197,8 @@ Here is the new user data.
           <i class="fa-solid fa-user"></i>
         </td>
         <td>
-          <button type="submit" class="btn btn-outline-secondary" name="submit" value="add"><i
-              class="fa-solid fa-pen-to-square"></i>
+          <button type="submit" class="btn btn-outline-secondary" name="submit" value="add">
+			<i class="fa-solid fa-pen-to-square"></i>
           </button>
         </td>
       </tr>
@@ -199,7 +206,7 @@ Here is the new user data.
 <!-- New User Data End -->
 ```
 
-Here is the old user data.
+**Old** user data
 
 ```
 <!-- Old User Data start -->
@@ -222,7 +229,8 @@ Here is the old user data.
           <span class="count"><%= count %></span>
         </td>
         <td>
-          <select name="title-<%= user._id %>" id="title-<%= user._id %>-<%= user.name.title %>" class="form-select form-select-sm">
+          <select name="title-<%= user._id %>" id="title-<%= user._id %>-<%= user.name.title %>" 
+class="form-select form-select-sm">
             <option></option>
 <%          titleList.forEach(function(title, index) {  %>
               <option value="<%= title%>">
@@ -240,7 +248,8 @@ Here is the old user data.
             value="<%= user.name.last %>" />
         </td>
         <td>
-          <select name="gender-<%= user._id %>" class="form-select form-select-sm" id="gender-<%= user._id %>-<%= user.gender %>">
+          <select name="gender-<%= user._id %>" class="form-select form-select-sm" 
+ id="gender-<%= user._id %>-<%= user.gender %>">
             <option></option>
 <%          genderList.forEach(function(gender, index) { %>
               <option value="<%=gender%>" <%= user.gender === gender ? "selected" : "" %>> <%= gender %>
@@ -253,7 +262,8 @@ Here is the old user data.
             value="<%= new Date(user.dob.date).toISOString().substring(0,10) %>" />
         </td>
         <td>
-          <select name="country-<%= user._id %>" id="country-<%= user._id %>-<%= user.location.country %>" class="form-select form-select-sm" >
+          <select name="country-<%= user._id %>" id="country-<%= user._id %>-<%= user.location.country %>" 
+class="form-select form-select-sm" >
             <option></option>
 <%          countryList.forEach(function(country, index) { %>
               <option value="<%= country%>">
@@ -263,16 +273,13 @@ Here is the old user data.
           </select>
         </td>
         <td>
-          <input class="form-control form-control-sm" name="phone-<%= user._id %>" type="text"
-            value="<%= user.phone %>" />
+          <input class="form-control form-control-sm" name="phone-<%= user._id %>" type="text" value="<%= user.phone %>" />
         </td>
         <td>
-          <input class="form-control form-control-sm" name="email-<%= user._id %>" type="email"
-            value="<%= user.email %>" />
+          <input class="form-control form-control-sm" name="email-<%= user._id %>" type="email" value="<%= user.email %>" />
         </td>
         <td>
-          <input class="form-control form-control-sm" name="picture-<%= user._id %>" type="text"
-            value="<%= user.picture.large %>" />
+          <input class="form-control form-control-sm" name="picture-<%= user._id %>" type="text" value="<%= user.picture.large %>" />
         </td>
         <td>
           <img class="thumbnail" src="<%= user.picture.large %>" border="0" />
@@ -297,7 +304,28 @@ Here is the old user data.
   </tbody>
 ```
 
-Under **views/layouts** folder, **main.ejs** includes the main body and the header the user table.
+
+> Note: ejs fails to handle the **select** html tag, **selected=""** is showed as below. The alternative method should be used. (See: https://stackoverflow.com/questions/34878180/html-select-option-with-ejs )
+
+```
+              <option value="Miss" selected="">
+                Miss
+              </option>
+```
+
+```
+          <select name="title-<%= user._id %>" id="title-<%= user._id %>-<%= user.name.title %>" class="form-select form-select-sm">
+            <option></option>
+<%          titleList.forEach(function(title, index) {  %>
+              <option value="<%= title%>">
+                <%= title %>
+              </option>
+<%          })  %>
+          </select>
+``` 
+
+
+6. Under **views/layouts** folder, **main.ejs** includes the main body **<%- body -%>** and the header portion the user table.
 
 ```
 <!DOCTYPE html>
