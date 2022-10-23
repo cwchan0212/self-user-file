@@ -270,6 +270,110 @@ Here is the old user data.
   </tbody>
 ```
 
+Under **views/layouts** folder, **main.ejs** includes the main body and the header the user table.
+
+```
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title><%= title %></title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+            integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link href="./css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="banner"> 
+            <div class="header">
+                <i class="fa-solid fa-angle-left fa-xl"></i>
+                <i class="fa-solid fa-percent fa-xl"></i>
+                <i class="fa-solid fa-equals fa-xl"></i>
+                <p class="h2">User Profile Management</p>                
+                <i class="fa-solid fa-percent fa-xl"></i>
+                <i class="fa-solid fa-angle-right fa-xl"></i>
+            </div> 
+            <div>
+                <p class="h6 text-muted"> (Demonstration of CRUD Operations)</p>
+            </div> 
+            <div class="logoset">          
+                <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Node.js_logo_2015.svg" border="0">
+                <i class="fa-solid fa-plus fa-xl"></i>
+                <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" border="0"> 
+            </div>   
+       
+        </div>
+
+<%  
+    if (typeof users !== "undefined" && users.length > 0) {        
+%>  
+        <div class="message">
+            <div class="alert alert-light" role="alert">
+                No. of records: <%= users.length %>
+            </div>
+<%
+        if (info.length != 0 && info[0] != "") {
+            let infoTag, messageTag;
+            if (info[0] === "add") {
+                infoTag = "added";
+                messageTag = "primary";
+            } else if (info[0] === "update") {
+                infoTag = "updated";
+                messageTag = "success";
+            } else if (info[0] === "delete") {
+                infoTag = "deleted";
+                messageTag = "danger";
+            }  
+%>
+            <div class="alert alert-<%= messageTag %>" role="alert">
+                Record <%= infoTag %> - <%= info[1] %>
+            </div>
+<%
+        }
+%>
+        </div>
+<%
+    } 
+%>
+        <div class="App">
+            <div class="tableFixHead">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>First</th>
+                            <th>Last</th>
+                            <th>Gender</th>
+                            <th>DOB</th>
+                            <th>Country</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th colspan="2">Picture URL</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <%- body -%>
+                </table>
+            </div>
+        </div>
+        <script src="./js/script.js"></script>
+  
+    </body>
+</html>
+```
 
 
 
