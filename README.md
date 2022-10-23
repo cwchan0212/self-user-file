@@ -87,7 +87,9 @@ Add "start:": nodemon sever.js in the "script" of package.json. nodemon is a too
   },
 ```
 
-The file **index.ejs** seperate two parts: 1) New User Data and 2) Old User Data...
+Under the **views** folder, **index.ejs** seperate two parts: 
+1) New User Data (to add new user)
+2) Old User Data (to list/update/delete user)
 
 Here is the new user data.
 
@@ -267,6 +269,10 @@ Here is the old user data.
 
   </tbody>
 ```
+
+
+
+
 
 Demonstration:
 https://bit.ly/3N1itcz
