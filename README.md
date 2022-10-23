@@ -48,13 +48,16 @@ const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 
 const app = express();
+
+# include dotenv to map the process environment variables
 require("dotenv").config();
+
+# # web service is listening to the port 3000
 const port = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-// views - to map ejs layouts
 app.use(expressLayouts);
 
 app.use(cookieParser("UserDataSecure"));
@@ -68,16 +71,27 @@ app.use(
 
 app.use(flash());
 
+// create vews folder map view engine to ejs and main content to the layouts
 app.set("layout", "./layouts/main");
 app.set("view engine", "ejs");
 
 const routes = require("./server/routes/userRoutes.js");
 app.use("/", routes);
 
-# web service is listening to the port 3000
 app.listen(port, () => console.log(`Listening to port ${port}...`));
 
 ```
+
+Add "start:": nodemon sever.js in the "script" of package.json. nodemon is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
+
+```
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+```
+
+
 Demonstration:
 https://bit.ly/3N1itcz
 
