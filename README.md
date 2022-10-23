@@ -5,6 +5,33 @@ Express is a minimal and flexible Node.js web application framework that provide
 CRUD operations in the MongoDB with the following steps.
 --
 
+File Structure
+
+```
+public/
+├─ css/
+│  ├─ styles.css
+├─ js/
+│  ├─ script.js
+server/
+├─ controllers/
+│  ├─ userController.js
+├─ models/
+│  ├─ database.js
+│  ├─ User.js
+├─ routes/
+│  ├─ userRoutes.js
+views/
+├─ layouts/
+│  ├─ main.ejs
+├─ index.ejs
+.gitignore
+package-lock.json
+package.json
+README.md
+server.js
+```
+
 Open VSCode, type npm init -y to create package.json. 
 
 ```
