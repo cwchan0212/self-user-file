@@ -4,12 +4,11 @@ Express is a minimal and flexible Node.js web application framework that provide
 
 CRUD operations in the MongoDB with the following steps.
 
-
-### Demonstration:
+## Demonstration:
 https://bit.ly/3N1itcz
 
 
-### Folder Structure
+## Folder Structure
 
 ```
 public/
@@ -36,9 +35,9 @@ README.md
 server.js
 ```
 
-### Steps to complete this project
+## Steps to complete this project
 
-1. Open VSCode, type npm init -y in the Terminal to create package.json. 
+### Step 1. Open VSCode, type npm init -y in the Terminal to create package.json. 
 
 ```sh
 npm init -y
@@ -61,13 +60,13 @@ npm init -y
 }
 ```
 
-2. Install the required packages
+### Step 2. Install the required packages
 
 ```sh
 npm i express ejs express-ejs-layouts express-session mongodb mongoose dotenv  connect-flash cookie-parser nodemon
 ```
 
-3. Create the file **server.js** at the root level, include the packges and set up web service at the port 3000
+### Step 3. Create the file server.js at the root level, include the packges and set up web service at the port 3000
 
 **server.js**
 
@@ -113,7 +112,7 @@ app.listen(port, () => console.log(`Listening to port ${port}...`));
 
 ```
 
-4. Add "start": "nodemon server.js" in the "scripts" of package.json. **nodemon** is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
+### Step 4. Add "start": "nodemon server.js" in the "scripts" of package.json. nodemon is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
 
 ```js
   "scripts": {
@@ -122,13 +121,13 @@ app.listen(port, () => console.log(`Listening to port ${port}...`));
   },
 ```
 
-5. Under the **views** folder, **index.ejs** separate two parts: 
+### Step 5. Under the views folder, index.ejs separate two parts: 
 - New User Data - add new user
 - Old User Data - list/update/delete user
 
 **index.ejs**
 
-*New user data*
+1. New user data
 
 ```ejs
 <%  
@@ -213,9 +212,9 @@ required />
 <!-- New User Data End -->
 ```
 
-*Old user data*
+2. Old user data
 
-```
+```ejs
 <!-- Old User Data start -->
 <% 
     if (typeof users !== "undefined" && users.length > 0) { 
@@ -314,18 +313,19 @@ class="form-select form-select-sm" >
 
 > Note: ejs fails to handle the **select** html tag, **selected=""** is then resulted. The alternative method should be used. (See: https://stackoverflow.com/questions/34878180/html-select-option-with-ejs )
 
-```
+```js
               <option value="Miss" selected="">
                 Miss
               </option>
 ```
 
 
-6. Under **views/layouts** folder, **main.ejs** includes the main body **<%- body -%>** and the header portion the user table.
+### Step 6. Under views/layouts folder, main.ejs includes the main body <%- body -%> and the header portion the user table.
 
 **main.ejs**
 
-```
+```ejs
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -426,15 +426,15 @@ class="form-select form-select-sm" >
   
     </body>
 </html>
+
 ```
 
-
-7. Under server/controllers, **userController.js** is to perform **CRUD** operation of the MongoDB.
+### Step 7. Under server/controllers, userController.js is to perform CRUD operation of the MongoDB.
 
 **userController.js**
 
 
-```
+```js
 require("../models/database");
 const { remove } = require("../models/User");
 const User = require("../models/User");
@@ -544,15 +544,15 @@ exports.created = async (req, res) => {
         res.status(500).send({ message: error.message || "Error Occurred" });
     }
 };
+
 ```
 
-
-
-8. Under server/models, **User.js** sets up the User schema with the aid of [JSON-schema converter](https://jsonformatter.org/json-to-jsonschema) .
+### Step 8. Under server/models, User.js sets up the User schema with the aid of [JSON-schema converter](https://jsonformatter.org/json-to-jsonschema) .
 
 **User.js**
 
-```
+```js
+
 const mongoose = require("mongoose");
 
 // Tools: JSON -> Mongoose Schema
@@ -665,9 +665,10 @@ const userSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("User", userSchema);
+
 ```
 
-9. Under server/models, **database.js** is the setting of the MongoDb.
+### Step 9. Under server/models, database.js is the setting of the MongoDb.
 
 **database.js**
 
@@ -682,11 +683,11 @@ db.once('open', function(){
 });
 ```
 
-10. Under server/routes, **userRoutes.js** directs the page to different pages for CRUD operation. 
+### Step 10. Under server/routes, userRoutes.js directs the page to different pages for CRUD operation. 
 
 **userRoutes.js**
 
-```
+```js
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
@@ -698,4 +699,3 @@ router.post("/user/:id", userController.modified);
 router.post("/new", userController.created);
 module.exports = router;
 ```
-
