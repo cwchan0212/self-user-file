@@ -62,8 +62,52 @@ npm init -y
 
 ### Step 2. Install the required packages
 
+- Using npm (the recommended way)
+
 ```sh
-npm i express ejs express-ejs-layouts express-session mongodb mongoose dotenv  connect-flash cookie-parser nodemon
+npm i express ejs express-ejs-layouts express-session mongodb mongoose dotenv connect-flash cookie-parser nodemon
+```
+
+- Install nodemon globally to the system path
+
+```sh
+npm install -g nodemon # or using yarn: yarn global add nodemon
+```
+
+- Install nodemon as a development dependency
+
+```sh
+npm install --save-dev nodemon # or using yarn: yarn add nodemon -D
+```
+
+**package.json** 
+
+```json
+{
+  "name": "self-user-file",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.17.3",
+    "mongodb": "^4.10.0",
+    "mongoose": "^6.6.5",
+    "nodemon": "^2.0.20"
+  }
+}
 ```
 
 ### Step 3. Create the file server.js at the root level, include the packges and set up web service at the port 3000
