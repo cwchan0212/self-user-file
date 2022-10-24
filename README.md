@@ -45,7 +45,7 @@ npm init -y
 
 **package.json**
 
-```js
+```json
 {
   "name": "user",
   "version": "1.0.0",
