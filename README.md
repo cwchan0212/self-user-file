@@ -40,13 +40,13 @@ server.js
 
 1. Open VSCode, type npm init -y in the Terminal to create package.json. 
 
-```
+```sh
 npm init -y
 ```
 
 **package.json**
 
-```
+```js
 {
   "name": "user",
   "version": "1.0.0",
@@ -62,7 +62,8 @@ npm init -y
 ```
 
 2. Install the required packages
-```
+
+```sh
 npm i express ejs express-ejs-layouts express-session mongodb mongoose dotenv  connect-flash cookie-parser nodemon
 ```
 
@@ -70,7 +71,7 @@ npm i express ejs express-ejs-layouts express-session mongodb mongoose dotenv  c
 
 **server.js**
 
-```
+```js
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
@@ -114,7 +115,7 @@ app.listen(port, () => console.log(`Listening to port ${port}...`));
 
 4. Add "start": "nodemon server.js" in the "scripts" of package.json. **nodemon** is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
 
-```
+```js
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
@@ -129,7 +130,7 @@ app.listen(port, () => console.log(`Listening to port ${port}...`));
 
 *New user data*
 
-```
+```ejs
 <%  
     const titleList = ["Mr", "Ms" , "Mrs" , "Miss", "Monsieur", "Mademoiselle", "Madame"]; 
     const genderList = ["male", "female" ]; 
