@@ -5,7 +5,11 @@ Express is a minimal and flexible Node.js web application framework that provide
 CRUD operations in the MongoDB with the following steps.
 
 
-Folder Structure
+### Demonstration:
+https://bit.ly/3N1itcz
+
+
+### Folder Structure
 
 ```
 public/
@@ -40,7 +44,7 @@ server.js
 npm init -y
 ```
 
-package.json
+**package.json**
 
 ```
 {
@@ -64,7 +68,7 @@ npm i express ejs express-ejs-layouts express-session mongodb mongoose dotenv  c
 
 3. Create the file **server.js** at the root level, include the packges and set up web service at the port 3000
 
-server.js
+**server.js**
 
 ```
 const express = require("express");
@@ -121,7 +125,9 @@ app.listen(port, () => console.log(`Listening to port ${port}...`));
 - New User Data - add new user
 - Old User Data - list/update/delete user
 
-**New** user data
+**index.ejs**
+
+*New user data*
 
 ```
 <%  
@@ -206,7 +212,7 @@ required />
 <!-- New User Data End -->
 ```
 
-**Old** user data
+*Old user data*
 
 ```
 <!-- Old User Data start -->
@@ -305,7 +311,7 @@ class="form-select form-select-sm" >
 ```
 
 
-> Note: ejs fails to handle the **select** html tag, **selected=""** is showed as below. The alternative method should be used. (See: https://stackoverflow.com/questions/34878180/html-select-option-with-ejs )
+> Note: ejs fails to handle the **select** html tag, **selected=""** is then resulted. The alternative method should be used. (See: https://stackoverflow.com/questions/34878180/html-select-option-with-ejs )
 
 ```
               <option value="Miss" selected="">
@@ -313,19 +319,10 @@ class="form-select form-select-sm" >
               </option>
 ```
 
-```
-          <select name="title-<%= user._id %>" id="title-<%= user._id %>-<%= user.name.title %>" class="form-select form-select-sm">
-            <option></option>
-<%          titleList.forEach(function(title, index) {  %>
-              <option value="<%= title%>">
-                <%= title %>
-              </option>
-<%          })  %>
-          </select>
-``` 
-
 
 6. Under **views/layouts** folder, **main.ejs** includes the main body **<%- body -%>** and the header portion the user table.
+
+**main.ejs**
 
 ```
 <!DOCTYPE html>
@@ -431,9 +428,273 @@ class="form-select form-select-sm" >
 ```
 
 
+7. Under server/controllers, **userController.js** is to perform **CRUD** operation of the MongoDB.
+
+**userController.js**
 
 
-Demonstration:
-https://bit.ly/3N1itcz
+```
+require("../models/database");
+const { remove } = require("../models/User");
+const User = require("../models/User");
 
-https://self-user-file.cwchan0212.repl.co/
+exports.homepage = async (req, res) => {
+    const info = req.flash("info");
+    try {
+        const users = await User.find({}).sort({ _id: -1 });
+        res.render("index", { title: "User Profile Management", users, info });
+    } catch (error) {
+        res.status(500).send({ message: error.message || "Error Occurred" });
+    }
+};
+
+exports.modified = async (req, res) => {
+    try {
+        let id = req.params.id;
+        let action = req.body.save ? "update" : "delete";
+        // console.log(req.body);
+
+        if (id) {
+            const userData = {
+                name: {
+                    title: req.body["title-" + id],
+                    first: req.body["first-" + id],
+                    last: req.body["last-" + id],
+                },
+
+                gender: req.body["gender-" + id],
+                dob: {
+                    date: new Date(req.body["dob-" + id]),
+                    age:
+                        new Date().getFullYear() -
+                        new Date(req.body["dob-" + id]).getFullYear(),
+                },
+
+                location: {
+                    country: req.body["country-" + id],
+                },
+
+                phone: req.body["phone-" + id],
+                email: req.body["email-" + id],
+                picture: {
+                    large: req.body["picture-" + id],
+                },
+            };
+
+            if (action == "update") {
+                User.findByIdAndUpdate(id, userData, function (err, doc) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        req.flash("info", [action, id]);
+                        res.redirect("/");
+                    }
+                });
+            } else if (action == "delete") {
+                User.findByIdAndDelete(id, function (err, doc) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        req.flash("info", [action, id]);
+                        res.redirect("/");
+                    }
+                });
+            }
+        }
+    } catch (error) {
+        res.status(500).send({ message: error.message || "Error Occurred" });
+    }
+};
+
+exports.created = async (req, res) => {
+    try {
+        const userData = {
+            name: {
+                title: req.body.title,
+                first: req.body.first,
+                last: req.body.last,
+            },
+
+            gender: req.body.gender,
+            dob: {
+                date: new Date(req.body.dob),
+                age:
+                    new Date().getFullYear() -
+                    new Date(req.body.dob).getFullYear(),
+            },
+
+            location: {
+                country: req.body.country,
+            },
+
+            phone: req.body.phone,
+            email: req.body.email,
+            picture: {
+                large: req.body.picture,
+            },
+        };
+
+        const newUser = User(userData);
+        newUser.save();
+
+        req.flash("info", ["add", newUser._id]);
+        res.redirect("/");
+    } catch (error) {
+        res.status(500).send({ message: error.message || "Error Occurred" });
+    }
+};
+```
+
+
+
+8. Under server/models, **User.js** sets up the User schema with the aid of [JSON-schema converter](https://jsonformatter.org/json-to-jsonschema) .
+
+**User.js**
+
+```
+const mongoose = require("mongoose");
+
+// Tools: JSON -> Mongoose Schema
+// https://transform.tools/json-to-mongoose
+
+const userSchema = new mongoose.Schema({
+  name: {
+    type: { title: String, first: String, last: String },
+    required: "This field is required.",
+  },
+
+  gender: {
+    type: String,
+    required: "This field is required.",
+  },
+
+  dob: {
+    date: {
+      type: "Date",
+    },
+    age: {
+      type: "Number",
+    },
+  },
+
+  location: {
+    timezone: {
+      offset: {
+        type: "String",
+      },
+      description: {
+        type: "String",
+      },
+    },
+    street: {
+      number: {
+        type: "Number",
+      },
+      name: {
+        type: "String",
+      },
+    },
+    city: {
+      type: "String",
+    },
+    state: {
+      type: "String",
+    },
+    country: {
+      type: "String",
+    },
+    postcode: {
+      type: "Number",
+    },
+    coordinates: {
+      latitude: {
+        type: "String",
+      },
+      longitude: {
+        type: "String",
+      },
+    },
+  },
+
+  phone: {
+    type: String,
+    required: "This field is required.",
+  },
+
+  email: {
+    type: String,
+    required: "This field is required.",
+  },
+  registered: {
+    date: {
+      type: "Date",
+    },
+    age: {
+      type: "Number",
+    },
+  },
+
+  login: {
+    uuid: {
+      type: "String",
+    },
+    username: {
+      type: "String",
+    },
+    password: {
+      type: "String",
+    },
+    salt: {
+      type: "String",
+    },
+    md5: {
+      type: "String",
+    },
+    sha1: {
+      type: "String",
+    },
+    sha256: {
+      type: "String",
+    },
+  },
+
+  picture: {
+    type: { large: String, medium: String, thumbnail: String },
+  },
+});
+
+module.exports = mongoose.model("User", userSchema);
+```
+
+9. Under server/models, **database.js** is the setting of the MongoDb.
+
+**database.js**
+
+```
+const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function(){
+  console.log('Connected')
+});
+```
+
+10. Under server/routes, **userRoutes.js** directs the page to different pages for CRUD operation. 
+
+**userRoutes.js**
+
+```
+const express = require("express");
+const router = express.Router();
+const userController = require("../controllers/userController");
+
+/** App Routes **/
+
+router.get("/", userController.homepage);
+router.post("/user/:id", userController.modified);
+router.post("/new", userController.created);
+module.exports = router;
+```
+
